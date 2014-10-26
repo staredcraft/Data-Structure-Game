@@ -1,0 +1,19 @@
+10x10 Array (Whole map is Black except where explored
+which is white and explorable areas are grey)
+
+Movement/Party Class (N/S/E/W movement, Sleep, Search, Run, Fight, hide)
+
+Combat stuffs class
+
+Room Class ( location, items, npcs if any, if searched, generate npcs on launch)
+
+Being Class (Warrior, Wizard, Rogue)
+
+Dice Class (rollDieD#(int x) x being number of die to be rolled)
+
+Items class (List of weapons/armor tier(1-6) X number of uses before breaking?)
+
+Dante Gennero: genetnad@gmail.com 248-752-9715 
+Robert Willing staredcraft@gmail.com 248-921-6096
+Alex Holoday: aholoday@gmail.com 248 877-2583
+Chris Lim : cklim@student.oaklandcc.edu 248 933 3730
