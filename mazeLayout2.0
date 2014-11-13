@@ -1,0 +1,186 @@
+Enter file contents hereimport java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class mazeLayout extends JFrame implements ActionListener 
+{
+   Position po = new Position(1,1);
+   char[][] maze= new char[10][10];
+	
+   JCheckBox b1 = new JCheckBox("shiny", true);
+
+   JTextField txt1 = new JTextField("SLACKER VIDEOGAME!");
+   
+   JTextField txt2 = new JTextField("box");
+	
+   JButton btn1 = new JButton("Btn 1");
+   JButton btn2 = new JButton("map");
+   JButton btn3 = new JButton("NPC SPOT");
+   JButton btn4 = new JButton("PLAYER SPOT");
+   
+   JButton btnU = new JButton("UP");
+   JButton btnD = new JButton("DOWN");
+   JButton btnL = new JButton("LEFT");
+   JButton btnR = new JButton("RIGHT");
+
+   public static void main(String [] args)
+   {
+      mazeLayout gq = new mazeLayout();
+
+   }
+
+   public mazeLayout()
+   {
+      super("GUI");
+
+		add(txt1, BorderLayout.NORTH);
+		
+		JPanel panelC = new JPanel();
+		panelC.setLayout(new GridLayout(1, 2));
+      //panelC.add(btn1);
+      JPanel panelM = new JPanel();
+      panelM.setLayout(new GridLayout(10,10));
+      readMap();
+      panelC.add(panelM);
+      for ( int row = 0; row < 10; row++ )
+      {
+         for ( int column = 0; column < 10; column++ )
+         {
+        	 JTextField temp= new JTextField(""+maze[row][column]);
+        	 temp.setEditable(false);
+        	 //for rewriting use setText("input here");
+        	 panelM.add(temp);
+         }
+      }
+      
+      //panelM.add(txt2);
+
+            
+      JPanel panelI = new JPanel();
+      panelC.add(panelI);
+      panelI.setLayout(new GridLayout(4,1));
+            
+      panelI.add(btnU);
+      panelI.add(btnD);
+      panelI.add(btnL);
+      panelI.add(btnR);
+      
+      btnU.addActionListener(this);
+      
+      //btnD.clickHandlerDown(this);
+      //btnL.clickHandlerLeft(this);
+      //btnR.clickHandlerRight(this);
+      
+      JPanel panelW = new JPanel();
+      panelW.add(btn3);
+      
+      JPanel panelE = new JPanel();
+      panelE.add(btn4);
+
+	  add(panelC, BorderLayout.CENTER);
+      
+      add(panelW, BorderLayout.WEST);
+      add(panelE, BorderLayout.EAST);
+      
+      pack();
+      setVisible(true);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   }
+   
+   public void readMap()
+   {
+	   //File file = new File("./maze.txt");
+
+	    try {
+	        BufferedReader sc = new BufferedReader(new FileReader("E:/cis2353/finalProject/workdir/finalProj/src/maze.txt"));
+	        String line = null;
+	        ArrayList<String[]> parts =new ArrayList();
+	        while ((line=sc.readLine()) != null) 
+	        {
+	            parts.add(line.split(","));
+            }
+	        for ( int row = 0; row < 10; row++ )
+	        {
+	            int i = 0;
+   	            for ( int column = 0; column < 10; column++ )
+   	            {
+   	              maze[row][column] = parts.get(row)[i].charAt(0);
+   	              i++;
+   	            }
+	       }
+	    } 
+	    catch (IOException e) 
+	    {
+	    	 for ( int row = 0; row < 10; row++ )
+	         {
+	            for ( int column = 0; column < 10; column++ )
+	            {
+	               maze[row][column] = 'd';
+	            }
+	         }
+	    	 maze[1][1]='X';
+	    	 maze[8][8] ='B';
+	    }
+
+   }
+   
+   public void actionPerformed(ActionEvent event)
+   {
+	   String action = event.getActionCommand();
+	   
+	   switch(action)
+	   {
+	   case "UP":clickHandlerUp(event);
+	   //break;
+	   //case "DOWN":clickHandlerDown(event);
+	   }
+   }
+   public void clickHandlerUp(ActionEvent e) 
+   {
+	   int temp=po.getRow();
+	   if(maze[po.getColumn()][po.getRow()-1] != '1')
+	   //W is a wall
+	   {
+		maze[po.getColumn()][po.getRow()]='9';
+	   	//9 is been before
+	   	temp--;
+	   	po.setRow(temp);
+	   	maze[po.getColumn()][po.getRow()]='X';
+	   	//x is the player moving
+	   }
+	   else
+	   {
+		   System.out.println("RAN INTO WALL!");
+	   }   
+   }
+   
+   /*
+   public void clickHandlerDown(ActionEvent e) 
+   {
+	   maze[row][column] = maze[row][column+1]
+   }
+   public void clickHandlerLeft(ActionEvent e) 
+   {
+	   maze[row][column] = maze[row-1][column]
+   }
+   public void clickHandlerRight(ActionEvent e) 
+   {
+	   maze[row][column] = maze[row+1][column]
+   }
+*/
+
+}
