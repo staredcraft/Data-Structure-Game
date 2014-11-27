@@ -1,4 +1,4 @@
-Enter file contents hereimport java.awt.BorderLayout;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,7 +20,7 @@ import javax.swing.JTextField;
 
 public class mazeLayout extends JFrame implements ActionListener 
 {
-   Position po = new Position(1,1);
+   Position po = new Position(2,1);
    char[][] maze= new char[10][10];
 	
    JCheckBox b1 = new JCheckBox("shiny", true);
@@ -36,7 +38,11 @@ public class mazeLayout extends JFrame implements ActionListener
    JButton btnD = new JButton("DOWN");
    JButton btnL = new JButton("LEFT");
    JButton btnR = new JButton("RIGHT");
-
+   
+   JPanel panelM = new JPanel();
+	JPanel panelC = new JPanel();
+   JPanel panelI = new JPanel();
+   
    public static void main(String [] args)
    {
       mazeLayout gq = new mazeLayout();
@@ -49,13 +55,49 @@ public class mazeLayout extends JFrame implements ActionListener
 
 		add(txt1, BorderLayout.NORTH);
 		
-		JPanel panelC = new JPanel();
 		panelC.setLayout(new GridLayout(1, 2));
       //panelC.add(btn1);
-      JPanel panelM = new JPanel();
       panelM.setLayout(new GridLayout(10,10));
       readMap();
+      displayMap();
       panelC.add(panelM);
+      
+      
+      //panelM.add(txt2);
+            
+      
+      panelC.add(panelI);
+      panelI.setLayout(new GridLayout(4,1));
+            
+      panelI.add(btnU);
+      panelI.add(btnD);
+      panelI.add(btnL);
+      panelI.add(btnR);
+      
+      btnU.addActionListener(this);
+      btnD.addActionListener(this);
+      
+      //btnL.clickHandlerLeft(this);
+      //btnR.clickHandlerRight(this);
+      
+      JPanel panelW = new JPanel();
+      panelW.add(btn3);
+      
+      JPanel panelE = new JPanel();
+      panelE.add(btn4);
+
+	   add(panelC, BorderLayout.CENTER);
+      
+      add(panelW, BorderLayout.WEST);
+      add(panelE, BorderLayout.EAST);
+      
+      pack();
+      setVisible(true);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   }
+   
+   public void displayMap()
+   {
       for ( int row = 0; row < 10; row++ )
       {
          for ( int column = 0; column < 10; column++ )
@@ -66,39 +108,7 @@ public class mazeLayout extends JFrame implements ActionListener
         	 panelM.add(temp);
          }
       }
-      
-      //panelM.add(txt2);
-
-            
-      JPanel panelI = new JPanel();
-      panelC.add(panelI);
-      panelI.setLayout(new GridLayout(4,1));
-            
-      panelI.add(btnU);
-      panelI.add(btnD);
-      panelI.add(btnL);
-      panelI.add(btnR);
-      
-      btnU.addActionListener(this);
-      
-      //btnD.clickHandlerDown(this);
-      //btnL.clickHandlerLeft(this);
-      //btnR.clickHandlerRight(this);
-      
-      JPanel panelW = new JPanel();
-      panelW.add(btn3);
-      
-      JPanel panelE = new JPanel();
-      panelE.add(btn4);
-
-	  add(panelC, BorderLayout.CENTER);
-      
-      add(panelW, BorderLayout.WEST);
-      add(panelE, BorderLayout.EAST);
-      
-      pack();
-      setVisible(true);
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      System.out.println("printed from displaymap");
    }
    
    public void readMap()
@@ -106,22 +116,24 @@ public class mazeLayout extends JFrame implements ActionListener
 	   //File file = new File("./maze.txt");
 
 	    try {
-	        BufferedReader sc = new BufferedReader(new FileReader("E:/cis2353/finalProject/workdir/finalProj/src/maze.txt"));
+	        BufferedReader sc = new BufferedReader(new FileReader("maze.txt"));
 	        String line = null;
-	        ArrayList<String[]> parts =new ArrayList();
+	        ArrayList<String[]> parts = new ArrayList();
 	        while ((line=sc.readLine()) != null) 
 	        {
 	            parts.add(line.split(","));
-            }
+           }
 	        for ( int row = 0; row < 10; row++ )
 	        {
 	            int i = 0;
-   	            for ( int column = 0; column < 10; column++ )
-   	            {
-   	              maze[row][column] = parts.get(row)[i].charAt(0);
-   	              i++;
-   	            }
+               for ( int column = 0; column < 10; column++ )
+	            {
+	              maze[row][column] = parts.get(row)[i].charAt(0);
+	              i++;
+	            }
 	       }
+          maze[po.getRow()][po.getColumn()] = 'x';
+          maze[7][7] = 'd';
 	    } 
 	    catch (IOException e) 
 	    {
@@ -129,7 +141,7 @@ public class mazeLayout extends JFrame implements ActionListener
 	         {
 	            for ( int column = 0; column < 10; column++ )
 	            {
-	               maze[row][column] = 'd';
+                     maze[row][column] = 'd';
 	            }
 	         }
 	    	 maze[1][1]='X';
@@ -145,13 +157,14 @@ public class mazeLayout extends JFrame implements ActionListener
 	   switch(action)
 	   {
 	   case "UP":clickHandlerUp(event);
-	   //break;
-	   //case "DOWN":clickHandlerDown(event);
+	   break;
+	   case "DOWN":clickHandlerDown(event);
+      break;
 	   }
    }
    public void clickHandlerUp(ActionEvent e) 
    {
-	   int temp=po.getRow();
+      int temp=po.getRow();
 	   if(maze[po.getColumn()][po.getRow()-1] != '1')
 	   //W is a wall
 	   {
@@ -166,13 +179,30 @@ public class mazeLayout extends JFrame implements ActionListener
 	   {
 		   System.out.println("RAN INTO WALL!");
 	   }   
+      displayMap();
    }
    
-   /*
+   
    public void clickHandlerDown(ActionEvent e) 
    {
-	   maze[row][column] = maze[row][column+1]
+	   int temp=po.getRow();
+	   if(maze[po.getColumn()][po.getRow()-1] != '1')
+	   //W is a wall
+	   {
+		maze[po.getColumn()][po.getRow()]='9';
+	   	//9 is been before
+	   	temp++;
+	   	po.setRow(temp);
+	   	maze[po.getColumn()][po.getRow()]='X';
+	   	//x is the player moving
+	   }
+	   else
+	   {
+		   System.out.println("RAN INTO WALL!");
+	   }   
+      displayMap();
    }
+   /*
    public void clickHandlerLeft(ActionEvent e) 
    {
 	   maze[row][column] = maze[row-1][column]
