@@ -1,14 +1,39 @@
+
+import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Alex Holoday
  */
 public class DungeonGUI extends javax.swing.JFrame {
 
+    Position po = new Position(1,1);
+    char[][] maze= new char[10][10];
     /**
      * Creates new form DungeonGUI
      */
     public DungeonGUI() {
         initComponents();
+        
+        mapPanel.setLayout(new GridLayout(10,10));
+        readMap();
+        for ( int row = 0; row < 10; row++ )
+        {
+            for ( int column = 0; column < 10; column++ )
+            {
+        	 JTextField temp= new JTextField(""+maze[row][column]);
+        	 temp.setEditable(false);
+        	 //for rewriting use setText("input here");
+        	 mapPanel.add(temp);
+            }
+        }
+        
     }
 
     /**
@@ -19,32 +44,42 @@ public class DungeonGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane2 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
-        SpellPane = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        northButton = new javax.swing.JButton();
-        westButton = new javax.swing.JButton();
-        eastButton = new javax.swing.JButton();
-        southButton = new javax.swing.JButton();
-        searchButton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         fightButton = new javax.swing.JButton();
         retreatButton = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
         sleepButton = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        southButton = new javax.swing.JButton();
+        eastButton = new javax.swing.JButton();
+        northButton = new javax.swing.JButton();
+        westButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         mapPanel = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        enemyTextArea = new javax.swing.JTextArea();
+        playerPane = new javax.swing.JTabbedPane();
+        partyPane = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        PartyTextArea = new javax.swing.JTextArea();
+        spellPane = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        SpellTextArea = new javax.swing.JTextArea();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        gameMenu = new javax.swing.JMenu();
+        newGameMenuItem = new javax.swing.JMenuItem();
         characterMenu = new javax.swing.JMenu();
         addCharacterMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dungeon");
-        setPreferredSize(new java.awt.Dimension(800, 460));
+        setPreferredSize(new java.awt.Dimension(795, 490));
         setResizable(false);
 
         logTextArea.setEditable(false);
@@ -52,52 +87,21 @@ public class DungeonGUI extends javax.swing.JFrame {
         logTextArea.setRows(5);
         jScrollPane2.setViewportView(logTextArea);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 172, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 268, Short.MAX_VALUE)
-        );
+        jPanel3.setLayout(new java.awt.GridLayout(4, 1));
 
-        SpellPane.addTab("Party", jPanel1);
+        fightButton.setText("Fight");
+        jPanel3.add(fightButton);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 172, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 268, Short.MAX_VALUE)
-        );
+        retreatButton.setText("Retreat");
+        jPanel3.add(retreatButton);
 
-        SpellPane.addTab("Spells", jPanel2);
+        searchButton.setText("Search");
+        jPanel3.add(searchButton);
 
-        northButton.setText("N");
-        northButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                northButtonActionPerformed(evt);
-            }
-        });
+        sleepButton.setText("Sleep");
+        jPanel3.add(sleepButton);
 
-        westButton.setText("W");
-        westButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                westButtonActionPerformed(evt);
-            }
-        });
-
-        eastButton.setText("E");
-        eastButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eastButtonActionPerformed(evt);
-            }
-        });
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
         southButton.setText("S");
         southButton.addActionListener(new java.awt.event.ActionListener() {
@@ -105,44 +109,161 @@ public class DungeonGUI extends javax.swing.JFrame {
                 southButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 41, 11, 0);
+        jPanel4.add(southButton, gridBagConstraints);
 
-        searchButton.setText("Search");
+        eastButton.setText("E");
+        eastButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eastButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 10);
+        jPanel4.add(eastButton, gridBagConstraints);
 
-        fightButton.setText("Fight");
+        northButton.setText("N");
+        northButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                northButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 41, 0, 0);
+        jPanel4.add(northButton, gridBagConstraints);
 
-        retreatButton.setText("Retreat");
+        westButton.setText("W");
+        westButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                westButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 10, 0, 0);
+        jPanel4.add(westButton, gridBagConstraints);
 
-        sleepButton.setText("Sleep");
+        jPanel5.setLayout(new java.awt.GridLayout(1, 3, 10, 0));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane5.setViewportView(jTextArea1);
+
+        jPanel5.add(jScrollPane5);
 
         mapPanel.setBackground(new java.awt.Color(153, 153, 153));
+        mapPanel.setPreferredSize(new java.awt.Dimension(270, 300));
 
         javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
         mapPanel.setLayout(mapPanelLayout);
         mapPanelLayout.setHorizontalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         mapPanelLayout.setVerticalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        enemyTextArea.setEditable(false);
-        enemyTextArea.setColumns(20);
-        enemyTextArea.setRows(5);
-        jScrollPane3.setViewportView(enemyTextArea);
+        jPanel5.add(mapPanel);
 
-        jMenu1.setText("Game");
+        PartyTextArea.setColumns(20);
+        PartyTextArea.setRows(5);
+        jScrollPane1.setViewportView(PartyTextArea);
 
-        jMenuItem1.setText("New Game");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        javax.swing.GroupLayout partyPaneLayout = new javax.swing.GroupLayout(partyPane);
+        partyPane.setLayout(partyPaneLayout);
+        partyPaneLayout.setHorizontalGroup(
+            partyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(partyPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        partyPaneLayout.setVerticalGroup(
+            partyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(partyPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        playerPane.addTab("Party", partyPane);
+
+        SpellTextArea.setColumns(20);
+        SpellTextArea.setRows(5);
+        jScrollPane4.setViewportView(SpellTextArea);
+
+        javax.swing.GroupLayout spellPaneLayout = new javax.swing.GroupLayout(spellPane);
+        spellPane.setLayout(spellPaneLayout);
+        spellPaneLayout.setHorizontalGroup(
+            spellPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(spellPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        spellPaneLayout.setVerticalGroup(
+            spellPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(spellPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        playerPane.addTab("Spells", spellPane);
+
+        jPanel5.add(playerPane);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/door.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 110, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        gameMenu.setText("Game");
+
+        newGameMenuItem.setText("New Game");
+        newGameMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                newGameMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        gameMenu.add(newGameMenuItem);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(gameMenu);
 
         characterMenu.setText("Characters");
 
@@ -163,64 +284,38 @@ public class DungeonGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(southButton)
-                                    .addComponent(northButton)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(westButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(eastButton)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fightButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(retreatButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sleepButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(SpellPane, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 7, Short.MAX_VALUE))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SpellPane)
-                    .addComponent(jScrollPane3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fightButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(retreatButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sleepButton))
-                    .addComponent(jScrollPane2)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(northButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(westButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(eastButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(southButton)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(439, 439, 439))
         );
 
         pack();
@@ -241,7 +336,33 @@ public class DungeonGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_westButtonActionPerformed
 
     private void addCharacterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCharacterMenuItemActionPerformed
-        //Add Code Here
+        
+////        Check for full party
+//        if(party.size() >= 6)
+//        {
+//            JOptionPane.showMessageDialog(this, "Party is already full!", "Full Party", JOptionPane.PLAIN_MESSAGE);
+//            return;
+//        }
+
+        //Get Character Name
+        String n = (String)JOptionPane.showInputDialog(
+                    this,
+                    "Name Your Character",
+                    "Name",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    null);
+        //Get Character Class
+        Object[] possibilities = {"Warrior", "Wizard", "Theif"};
+        String c = (String)JOptionPane.showInputDialog(
+                    this,
+                    "Choose Your Class",
+                    "Class",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    possibilities,
+                    "Warrior");
     }//GEN-LAST:event_addCharacterMenuItemActionPerformed
 
     private void northButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_northButtonActionPerformed
@@ -258,14 +379,52 @@ public class DungeonGUI extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_southButtonActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void newGameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGameMenuItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_newGameMenuItemActionPerformed
 
+    public void readMap()
+   {
+	   //File file = new File("./maze.txt");
+
+	    try {
+	        BufferedReader sc = new BufferedReader(new FileReader("maze.txt"));
+	        String line = null;
+	        ArrayList<String[]> parts =new ArrayList();
+	        while ((line=sc.readLine()) != null) 
+	        {
+	            parts.add(line.split(","));
+            }
+	        for ( int row = 0; row < 10; row++ )
+	        {
+	            int i = 0;
+   	            for ( int column = 0; column < 10; column++ )
+   	            {
+   	              maze[row][column] = parts.get(row)[i].charAt(0);
+   	              i++;
+   	            }
+	       }
+	    } 
+	    catch (IOException e) 
+	    {
+	    	 for ( int row = 0; row < 10; row++ )
+	         {
+	            for ( int column = 0; column < 10; column++ )
+	            {
+	               maze[row][column] = 'd';
+	            }
+	         }
+	    	 maze[1][1]='X';
+	    	 maze[8][8] ='B';
+	    }
+
+   }
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) 
+    {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -295,29 +454,39 @@ public class DungeonGUI extends javax.swing.JFrame {
                 new DungeonGUI().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane SpellPane;
+    private javax.swing.JTextArea PartyTextArea;
+    private javax.swing.JTextArea SpellTextArea;
     private javax.swing.JMenuItem addCharacterMenuItem;
     private javax.swing.JMenu characterMenu;
     private javax.swing.JButton eastButton;
-    private javax.swing.JTextArea enemyTextArea;
     private javax.swing.JButton fightButton;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu gameMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea logTextArea;
     private javax.swing.JPanel mapPanel;
+    private javax.swing.JMenuItem newGameMenuItem;
     private javax.swing.JButton northButton;
+    private javax.swing.JPanel partyPane;
+    private javax.swing.JTabbedPane playerPane;
     private javax.swing.JButton retreatButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JButton sleepButton;
     private javax.swing.JButton southButton;
+    private javax.swing.JPanel spellPane;
     private javax.swing.JButton westButton;
     // End of variables declaration//GEN-END:variables
     }
