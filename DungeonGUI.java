@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +14,7 @@ import javax.swing.JTextField;
  */
 public class DungeonGUI extends javax.swing.JFrame {
 
-    Position po = new Position(1,1);
+    Position po = new Position(8,8);
     char[][] maze= new char[10][10];
     /**
      * Creates new form DungeonGUI
@@ -29,6 +30,11 @@ public class DungeonGUI extends javax.swing.JFrame {
             {
         	 JTextField temp= new JTextField(""+maze[row][column]);
         	 temp.setEditable(false);
+                 if(temp.getText().equals("" + 'd'))
+                 {
+                     temp.setBackground(Color.BLACK);
+                     temp.setText(null);
+                 }
         	 //for rewriting use setText("input here");
         	 mapPanel.add(temp);
             }
