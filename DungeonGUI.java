@@ -2,6 +2,7 @@
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,14 +15,17 @@ import javax.swing.JTextField;
  */
 public class DungeonGUI extends javax.swing.JFrame {
 
-    Position po = new Position(8,8);
+    Position po = new Position(6,8);
     char[][] maze= new char[10][10];
+    JTextField[][] tfMaze = new JTextField[10][10];
+
     /**
      * Creates new form DungeonGUI
      */
     public DungeonGUI() {
         initComponents();
-        
+        System.out.println(System.getProperty("user.dir"));
+
         mapPanel.setLayout(new GridLayout(10,10));
         readMap();
         for ( int row = 0; row < 10; row++ )
@@ -30,15 +34,18 @@ public class DungeonGUI extends javax.swing.JFrame {
             {
         	 JTextField temp= new JTextField(""+maze[row][column]);
         	 temp.setEditable(false);
-                 if(temp.getText().equals("" + 'd'))
-                 {
-                     temp.setBackground(Color.BLACK);
-                     temp.setText(null);
-                 }
-        	 //for rewriting use setText("input here");
+//                 DARKNESS!
+//                 if(temp.getText().equals("" + '1') || temp.getText().equals("" + '2') || temp.getText().equals("" + 'E'))
+//                 {
+//                     temp.setBackground(Color.BLACK);
+//                     temp.setText(null);
+//                 }
         	 mapPanel.add(temp);
+                 tfMaze[row][column] = temp;
+
             }
         }
+        
         
     }
 
@@ -327,18 +334,75 @@ public class DungeonGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void northButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_northButtonActionPerformed
+        
+        if(maze[po.getColumn()-1][po.getRow()] != '1')
+        {
+            tfMaze[po.getColumn()][po.getRow()].setText("" + '9');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.LIGHT_GRAY);
+            po.setColumn(po.getColumn()-1);
+            tfMaze[po.getColumn()][po.getRow()].setText("" + 'X');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.WHITE);
+            logTextArea.append("(" + po.getColumn() + ", " + po.getRow()+ ")\n");
+        }
+        else
+        {
+            logTextArea.append("Wall (" + po.getColumn() + ", " + po.getRow()+ ")\n");
+        }
+
+    }//GEN-LAST:event_northButtonActionPerformed
+
+    private void southButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_southButtonActionPerformed
+        
+        if(maze[po.getColumn()+1][po.getRow()] != '1')
+        {
+            tfMaze[po.getColumn()][po.getRow()].setText("" + '9');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.LIGHT_GRAY);
+            po.setColumn(po.getColumn()+1);
+            tfMaze[po.getColumn()][po.getRow()].setText("" + 'X');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.WHITE);
+            logTextArea.append("(" + po.getColumn() + ", " + po.getRow()+ ")\n");        }
+        else
+        {
+            logTextArea.append("Wall (" + po.getColumn() + ", " + po.getRow()+ ")\n");
+        }
+
+    }//GEN-LAST:event_southButtonActionPerformed
+
     private void eastButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eastButtonActionPerformed
-//        if(canMove("E"))
-//        {
-//            move("E");
-//        }  
+
+         if(maze[po.getColumn()][po.getRow()+1] != '1')
+        {
+            tfMaze[po.getColumn()][po.getRow()].setText("" + '9');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.LIGHT_GRAY);
+            po.setRow(po.getRow()+1);
+            tfMaze[po.getColumn()][po.getRow()].setText("" + 'X');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.WHITE);
+            logTextArea.append("(" + po.getColumn() + ", " + po.getRow()+ ")\n");
+        }
+        else
+        {
+            logTextArea.append("Wall ("+ po.getColumn() + ", " + po.getRow()+ ")\n");
+        }
+         
     }//GEN-LAST:event_eastButtonActionPerformed
 
     private void westButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_westButtonActionPerformed
-//        if(canMove("W"))
-//        {
-//            move("W");
-//        }
+        
+         if(maze[po.getColumn()][po.getRow()-1] != '1')
+        {
+            tfMaze[po.getColumn()][po.getRow()].setText("" + '9');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.LIGHT_GRAY);
+            po.setRow(po.getRow()-1);
+            tfMaze[po.getColumn()][po.getRow()].setText("" + 'X');
+            tfMaze[po.getColumn()][po.getRow()].setBackground(Color.WHITE);
+            logTextArea.append("(" + po.getColumn() + ", " + po.getRow()+ ")\n");
+        }
+        else
+        {
+            logTextArea.append("Wall (" + po.getColumn() + ", " + po.getRow()+ ")\n");
+        }
+        
     }//GEN-LAST:event_westButtonActionPerformed
 
     private void addCharacterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCharacterMenuItemActionPerformed
@@ -371,60 +435,50 @@ public class DungeonGUI extends javax.swing.JFrame {
                     "Warrior");
     }//GEN-LAST:event_addCharacterMenuItemActionPerformed
 
-    private void northButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_northButtonActionPerformed
-//        if(canMove("N"))
-//        {
-//            move("N");
-//        }
-    }//GEN-LAST:event_northButtonActionPerformed
-
-    private void southButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_southButtonActionPerformed
-//        if(canMove("N"))
-//        {
-//            move("N");
-//        }
-    }//GEN-LAST:event_southButtonActionPerformed
 
     private void newGameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGameMenuItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_newGameMenuItemActionPerformed
 
-    public void readMap()
+ public void readMap()
    {
 	   //File file = new File("./maze.txt");
-
-	    try {
-	        BufferedReader sc = new BufferedReader(new FileReader("maze.txt"));
-	        String line = null;
-	        ArrayList<String[]> parts =new ArrayList();
-	        while ((line=sc.readLine()) != null) 
-	        {
-	            parts.add(line.split(","));
+    try {
+            BufferedReader sc = new BufferedReader(new FileReader("src/maze.txt"));
+            String line = null;
+            ArrayList<String[]> parts =new ArrayList();
+            while ((line=sc.readLine()) != null) 
+            {
+                parts.add(line.split(","));
             }
-	        for ( int row = 0; row < 10; row++ )
-	        {
-	            int i = 0;
-   	            for ( int column = 0; column < 10; column++ )
-   	            {
-   	              maze[row][column] = parts.get(row)[i].charAt(0);
-   	              i++;
-   	            }
-	       }
-	    } 
-	    catch (IOException e) 
-	    {
-	    	 for ( int row = 0; row < 10; row++ )
-	         {
-	            for ( int column = 0; column < 10; column++ )
-	            {
-	               maze[row][column] = 'd';
-	            }
-	         }
-	    	 maze[1][1]='X';
-	    	 maze[8][8] ='B';
-	    }
+            for ( int row = 0; row < 10; row++ )
+            {
+                int i = 0;
+                for ( int column = 0; column < 10; column++ )
+                {
+                    maze[row][column] = parts.get(row)[i].charAt(0);
+                    i++;
+                }
+           }
+        } 
+        catch (IOException e) 
+        {
+            throw new RuntimeException(e);
+//	    	 for ( int row = 0; row < 10; row++ )
+//	         {
+//	            for ( int column = 0; column < 10; column++ )
+//	            {
+//	               maze[row][column] = 'd';
+//	            }
+//	         }
+//             maze[1][1]='X';
+//             maze[8][8] ='B';
+        }
+        
+        
 
    }
+
     
     /**
      * @param args the command line arguments
