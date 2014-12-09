@@ -17,6 +17,7 @@ public class Being
    protected int Spell;
    protected String profession;
    protected boolean active;
+   protected boolean potion = false;
    protected boolean hiding = false;
    protected Dice die = new Dice();
    
@@ -187,6 +188,17 @@ public class Being
       hiding = false;
       return result;
    }
+   
+   void setPotion()
+   {
+      potion = true;
+   }
+   
+   boolean getPotion()
+   {
+      return potion;
+   }
+   
    
    String tooString()
    {
