@@ -1,13 +1,15 @@
 package finalproj;
 import java.util.*;
-
+/*
+   Combat Class (Holds calls for actual combat)
+   Author: Dante Gennero
+*/
 public class Combat
 {
-   public static Queue<Character> queue = new Queue();
-   protected static Dice die = new Dice();
+   protected Dice die = new Dice();
    
    //This is the actual attack action. Should be called by the Queue after all characters select their actions.
-   static void meleeAttack(Character agg, Character def)
+   public void meleeAttack(Being agg, Being def)
    {
       activeCheck(agg, def);
       if ( die.d20() > def.getDex())
@@ -35,7 +37,7 @@ public class Combat
    }
    
    //This is the actual magic action. Should be called by the Queue after all characters select their actions.
-   static void magicAttack(Character agg, Character def)
+   public void magicAttack(Being agg, Being def)
    {
       activeCheck(agg, def);
       if (agg.hasSpell())
@@ -81,7 +83,7 @@ public class Combat
    }
    
    //This is the actual range action. Should be called by the Queue after all characters select their actions.
-   static void rangeAttack(Character agg, Character def)
+   public void rangeAttack(Being agg, Being def)
    {
       activeCheck(agg, def);
       if (agg.getWeap() == 3 || agg.getWeap() == 4)
@@ -117,13 +119,13 @@ public class Combat
    }
    
    // Sets characters hide.
-   public void Hide(Character hider)
+   public void Hide(Being hider)
    {
       hider.setHide();
    }
    
    // Checks if characters are active or not.
-   static boolean activeCheck(Character agg, Character def)
+   private boolean activeCheck(Being agg, Being def)
    {
       boolean result = false;
       if (agg.getActive())
