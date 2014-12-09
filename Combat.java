@@ -16,7 +16,8 @@ public class Combat
       {
          int damage;
          damage = agg.getStr() / 3 + agg.getWeap() - def.getArm();
-         
+         agg.useWeap();
+         def.useArmor();
          def.setHp(def.getHp() - damage );
          if ( def.getHp() < 0)
          {
@@ -57,7 +58,8 @@ public class Combat
             }
             
             damage =  agg.getInt() / 3 + agg.useSpell() + weap - def.getArm();
-            
+            agg.useWeap();
+            def.useArmor();
             def.setHp(def.getHp() - damage );
             if ( def.getHp() < 0)
             {
@@ -91,8 +93,9 @@ public class Combat
          if ( die.d15() > def.getDex())
          {
             int damage;
-            damage = agg.getStr() / 3 + agg.getWeap() - 2/*for weapon damage */ - def.getArm();
-            
+            damage = agg.getStr() / 3 + agg.getWeap() - 2/*for weapon damage */ - def.getArm();  
+            agg.useWeap();
+            def.useArmor();
             def.setHp(def.getHp() - damage );
             if ( def.getHp() < 0)
             {
