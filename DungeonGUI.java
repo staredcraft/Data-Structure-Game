@@ -1,11 +1,12 @@
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -18,6 +19,7 @@ public class DungeonGUI extends javax.swing.JFrame {
     Position po = new Position(6,8);
     char[][] maze= new char[10][10];
     JTextField[][] tfMaze = new JTextField[10][10];
+//    Map<String, Room> rooms = new HashMap();
 
     /**
      * Creates new form DungeonGUI
@@ -42,6 +44,12 @@ public class DungeonGUI extends javax.swing.JFrame {
 //                 }
         	 mapPanel.add(temp);
                  tfMaze[row][column] = temp;
+                 if(maze[row][column] != '1')
+                 {
+//                 Room tempRoom = new Room()
+//                     string cor = Integer.toString(row)+ column.toString();
+//                     room.put(cor, tempRoom);
+                 }
 
             }
         }
@@ -61,17 +69,12 @@ public class DungeonGUI extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
-        jPanel3 = new javax.swing.JPanel();
-        fightButton = new javax.swing.JButton();
-        retreatButton = new javax.swing.JButton();
-        searchButton = new javax.swing.JButton();
-        sleepButton = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
+        movePanel = new javax.swing.JPanel();
         southButton = new javax.swing.JButton();
         eastButton = new javax.swing.JButton();
         northButton = new javax.swing.JButton();
         westButton = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
+        displayPanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         mapPanel = new javax.swing.JPanel();
@@ -82,8 +85,19 @@ public class DungeonGUI extends javax.swing.JFrame {
         spellPane = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         SpellTextArea = new javax.swing.JTextArea();
-        jPanel6 = new javax.swing.JPanel();
+        doorPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        actionPanel = new javax.swing.JPanel();
+        explorePanel = new javax.swing.JPanel();
+        fightButton = new javax.swing.JButton();
+        potionButton = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
+        sleepButton = new javax.swing.JButton();
+        combatPanel = new javax.swing.JPanel();
+        attackButton = new javax.swing.JButton();
+        magicButton = new javax.swing.JButton();
+        memorizeButton = new javax.swing.JButton();
+        fleeButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         gameMenu = new javax.swing.JMenu();
         newGameMenuItem = new javax.swing.JMenuItem();
@@ -92,7 +106,6 @@ public class DungeonGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dungeon");
-        setPreferredSize(new java.awt.Dimension(795, 490));
         setResizable(false);
 
         logTextArea.setEditable(false);
@@ -100,21 +113,7 @@ public class DungeonGUI extends javax.swing.JFrame {
         logTextArea.setRows(5);
         jScrollPane2.setViewportView(logTextArea);
 
-        jPanel3.setLayout(new java.awt.GridLayout(4, 1));
-
-        fightButton.setText("Fight");
-        jPanel3.add(fightButton);
-
-        retreatButton.setText("Retreat");
-        jPanel3.add(retreatButton);
-
-        searchButton.setText("Search");
-        jPanel3.add(searchButton);
-
-        sleepButton.setText("Sleep");
-        jPanel3.add(sleepButton);
-
-        jPanel4.setLayout(new java.awt.GridBagLayout());
+        movePanel.setLayout(new java.awt.GridBagLayout());
 
         southButton.setText("S");
         southButton.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +127,7 @@ public class DungeonGUI extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 41, 11, 0);
-        jPanel4.add(southButton, gridBagConstraints);
+        movePanel.add(southButton, gridBagConstraints);
 
         eastButton.setText("E");
         eastButton.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +141,7 @@ public class DungeonGUI extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 10);
-        jPanel4.add(eastButton, gridBagConstraints);
+        movePanel.add(eastButton, gridBagConstraints);
 
         northButton.setText("N");
         northButton.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +155,7 @@ public class DungeonGUI extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(11, 41, 0, 0);
-        jPanel4.add(northButton, gridBagConstraints);
+        movePanel.add(northButton, gridBagConstraints);
 
         westButton.setText("W");
         westButton.addActionListener(new java.awt.event.ActionListener() {
@@ -169,15 +168,15 @@ public class DungeonGUI extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 10, 0, 0);
-        jPanel4.add(westButton, gridBagConstraints);
+        movePanel.add(westButton, gridBagConstraints);
 
-        jPanel5.setLayout(new java.awt.GridLayout(1, 3, 10, 0));
+        displayPanel.setLayout(new java.awt.GridLayout(1, 3, 10, 0));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane5.setViewportView(jTextArea1);
 
-        jPanel5.add(jScrollPane5);
+        displayPanel.add(jScrollPane5);
 
         mapPanel.setBackground(new java.awt.Color(153, 153, 153));
         mapPanel.setPreferredSize(new java.awt.Dimension(270, 300));
@@ -193,7 +192,7 @@ public class DungeonGUI extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel5.add(mapPanel);
+        displayPanel.add(mapPanel);
 
         PartyTextArea.setColumns(20);
         PartyTextArea.setRows(5);
@@ -205,7 +204,7 @@ public class DungeonGUI extends javax.swing.JFrame {
             partyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(partyPaneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addContainerGap())
         );
         partyPaneLayout.setVerticalGroup(
@@ -228,7 +227,7 @@ public class DungeonGUI extends javax.swing.JFrame {
             spellPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(spellPaneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addContainerGap())
         );
         spellPaneLayout.setVerticalGroup(
@@ -241,30 +240,74 @@ public class DungeonGUI extends javax.swing.JFrame {
 
         playerPane.addTab("Spells", spellPane);
 
-        jPanel5.add(playerPane);
+        displayPanel.add(playerPane);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/door.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout doorPanelLayout = new javax.swing.GroupLayout(doorPanel);
+        doorPanel.setLayout(doorPanelLayout);
+        doorPanelLayout.setHorizontalGroup(
+            doorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(doorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(doorPanelLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        doorPanelLayout.setVerticalGroup(
+            doorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 110, Short.MAX_VALUE)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(doorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(doorPanelLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        actionPanel.setLayout(new java.awt.CardLayout());
+
+        explorePanel.setLayout(new java.awt.GridLayout(4, 1));
+
+        fightButton.setText("Fight");
+        fightButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fightButtonActionPerformed(evt);
+            }
+        });
+        explorePanel.add(fightButton);
+
+        potionButton.setText("Potion");
+        explorePanel.add(potionButton);
+
+        searchButton.setText("Search");
+        explorePanel.add(searchButton);
+
+        sleepButton.setText("Sleep");
+        explorePanel.add(sleepButton);
+
+        actionPanel.add(explorePanel, "card2");
+
+        combatPanel.setLayout(new java.awt.GridLayout(4, 0));
+
+        attackButton.setText("Attack");
+        combatPanel.add(attackButton);
+
+        magicButton.setText("Magic");
+        combatPanel.add(magicButton);
+
+        memorizeButton.setText("Memorize");
+        combatPanel.add(memorizeButton);
+
+        fleeButton.setText("Retreat");
+        fleeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fleeButtonActionPerformed(evt);
+            }
+        });
+        combatPanel.add(fleeButton);
+
+        actionPanel.add(combatPanel, "card3");
 
         gameMenu.setText("Game");
 
@@ -299,36 +342,41 @@ public class DungeonGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(doorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(movePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(actionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(439, 439, 439))
+                            .addComponent(movePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(doorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(actionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -440,6 +488,17 @@ public class DungeonGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_newGameMenuItemActionPerformed
 
+    private void fightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fightButtonActionPerformed
+        CardLayout cl = (CardLayout)(actionPanel.getLayout());
+        cl.show(actionPanel, "card3");
+        
+    }//GEN-LAST:event_fightButtonActionPerformed
+
+    private void fleeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fleeButtonActionPerformed
+        CardLayout cl = (CardLayout)(actionPanel.getLayout());
+        cl.show(actionPanel, "card2");
+    }//GEN-LAST:event_fleeButtonActionPerformed
+
  public void readMap()
    {
 	   //File file = new File("./maze.txt");
@@ -520,29 +579,35 @@ public class DungeonGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea PartyTextArea;
     private javax.swing.JTextArea SpellTextArea;
+    private javax.swing.JPanel actionPanel;
     private javax.swing.JMenuItem addCharacterMenuItem;
+    private javax.swing.JButton attackButton;
     private javax.swing.JMenu characterMenu;
+    private javax.swing.JPanel combatPanel;
+    private javax.swing.JPanel displayPanel;
+    private javax.swing.JPanel doorPanel;
     private javax.swing.JButton eastButton;
+    private javax.swing.JPanel explorePanel;
     private javax.swing.JButton fightButton;
+    private javax.swing.JButton fleeButton;
     private javax.swing.JMenu gameMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea logTextArea;
+    private javax.swing.JButton magicButton;
     private javax.swing.JPanel mapPanel;
+    private javax.swing.JButton memorizeButton;
+    private javax.swing.JPanel movePanel;
     private javax.swing.JMenuItem newGameMenuItem;
     private javax.swing.JButton northButton;
     private javax.swing.JPanel partyPane;
     private javax.swing.JTabbedPane playerPane;
-    private javax.swing.JButton retreatButton;
+    private javax.swing.JButton potionButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JButton sleepButton;
     private javax.swing.JButton southButton;
