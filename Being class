@@ -12,8 +12,8 @@ public class Being
    protected int Str;
    protected int Dex;
    protected int Int;
-   protected int Weap;
-   protected int Arm;
+   protected Item Weap = new Item();
+   protected Item Arm = new Item();
    protected int Spell;
    protected String profession;
    protected boolean active;
@@ -107,12 +107,12 @@ public class Being
    
    int getWeap()
    {
-      return Weap;
+      return Weap.getWeap();
    }
    
    int getArm()
    {
-      return Arm;
+      return Arm.getArmor();
    }
    
    boolean getActive()
@@ -199,6 +199,15 @@ public class Being
       return potion;
    }
    
+   void useArmor()
+   {
+      Arm.itemUsed();
+   }
+   
+   void useWeap()
+   {
+      Weap.itemUsed();
+   }
    
    String tooString()
    {
