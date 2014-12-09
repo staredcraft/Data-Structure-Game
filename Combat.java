@@ -5,33 +5,6 @@ public class Combat
 {
    public static Queue<Character> queue = new Queue();
    protected static Dice die = new Dice();
-   public static void main(String[] args)
-   {
-      //Character(String newName, int Hp, int Str, int Dex, int Int, int Weap, int Arm)
-     
-      Character pOne = new Character("One", 20, 20, 20, 5, 0, 0);
-      Character pTwo = new Character("Two", 20, 5, 19, 19, 0, 0);
-      Character pThree = new Character("Three", 5, 20, 18, 5, 0 ,0);
-      Character pFour = new Character("Four", 50, 20, 12, 5, 0 ,0);      
-      
-      Character active;
-      queue.add(pThree);
-      System.out.println("Three is first");
-      queue.add(pTwo);
-      System.out.println("Two is second");
-      queue.add(pOne);
-      System.out.println("One is last");
-      
-      for (int i = 0; i < 20; i++)
-      {
-         active = queue.remove();
-         System.out.println(active.getName() + "'s turn.");
-         magicAttack(active, pFour);
-         active.setSpell(2);
-         queue.add(active);
-      }
-      
-   }
    
    //This is the actual attack action. Should be called by the Queue after all characters select their actions.
    static void meleeAttack(Character agg, Character def)
